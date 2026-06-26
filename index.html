@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impel Union — Market Dashboard 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f1923;
+    color: #e8edf2;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1F4E79 0%, #163a5b 100%);
+    padding: 20px 32px;
+    border-bottom: 3px solid #2E75B6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  .header-left p {
+    font-size: 12px;
+    color: #90b4d4;
+    margin-top: 3px;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .header-right .date-badge {
+    background: rgba(46,117,182,0.3);
+    border: 1px solid #2E75B6;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #90b4d4;
+  }
+  .header-right .apex-badge {
+    font-size: 11px;
+    color: #EE0000;
+    margin-top: 4px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* TABS */
+  .tabs-container {
+    background: #162030;
+    border-bottom: 1px solid #1e3248;
+    padding: 0 32px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: #6b8fae;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: Arial, sans-serif;
+  }
+  .tab-btn:hover { color: #90b4d4; }
+  .tab-btn.active {
+    color: #4faaff;
+    border-bottom-color: #4faaff;
+  }
+  .tab-emoji { margin-right: 6px; }
+
+  /* CONTENT */
+  .content {
+    padding: 28px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 20px;
+  }
+  .section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+  .section-header p {
+    font-size: 12px;
+    color: #6b8fae;
+  }
+  .bottom-line {
+    background: rgba(31,78,121,0.3);
+    border-left: 3px solid #2E75B6;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #c5dff5;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .bottom-line strong { color: #4faaff; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: #162030;
+    border: 1px solid #1e3248;
+    border-radius: 8px;
+    padding: 14px 18px;
+    flex: 1;
+    min-width: 150px;
+  }
+  .stat-card .label {
+    font-size: 11px;
+    color: #6b8fae;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .stat-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .stat-card .change {
+    font-size: 12px;
+    margin-top: 3px;
+  }
+  .up { color: #4ade80; }
+  .down { color: #f87171; }
+  .neutral { color: #6b8fae; }
+
+  /* CHART AREA */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .chart-full { grid-column: 1 / -1; }
+  .chart-box {
+    background: #162030;
+    border: 1px solid #1e3248;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .chart-box h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #90b4d4;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .chart-box canvas {
+    max-height: 280px;
+  }
+
+  /* FOOTER */
+  .dashboard-footer {
+    padding: 16px 32px;
+    border-top: 1px solid #1e3248;
+    font-size: 11px;
+    color: #405a72;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* SIGNAL PILL */
+  .signal {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .signal-buy { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid #4ade80; }
+  .signal-watch { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid #fbbf24; }
+  .signal-hold { background: rgba(148,163,184,0.15); color: #94a3b8; border: 1px solid #94a3b8; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>🚛 Impel Union — Market Dashboard</h1>
+    <p>Weekly Trends | January 2026 – June 26, 2026</p>
+  </div>
+  <div class="header-right">
+    <div class="date-badge">Last Updated: June 26, 2026</div>
+    <div class="apex-badge">APEX Intelligence</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-container">
+  <button class="tab-btn active" onclick="switchTab('freight', this)">
+    <span class="tab-emoji">📦</span>Freight Market
+  </button>
+  <button class="tab-btn" onclick="switchTab('trucks', this)">
+    <span class="tab-emoji">🚚</span>Used Truck Market
+  </button>
+  <button class="tab-btn" onclick="switchTab('trailers', this)">
+    <span class="tab-emoji">🔲</span>Trailer Market
+  </button>
+  <button class="tab-btn" onclick="switchTab('aluminum', this)">
+    <span class="tab-emoji">⚙️</span>Aluminum Prices
+  </button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ============ FREIGHT MARKET ============ -->
+  <div id="panel-freight" class="tab-panel active">
+    <div class="section-header">
+      <h2>Freight Market <span class="signal signal-buy">TIGHT ↑</span></h2>
+      <p>Spot rates, linehaul rates, and capacity utilization — Jan 2026 to present</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Bottom Line:</strong> Capacity is tightening significantly across all modes. The Tender Rejection Index crossed 16% in June — the highest reading since mid-2022. Flatbed is the tightest segment. This is a direct leading indicator of strengthening truck and trailer demand 4–8 weeks ahead.
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="label">Dry Van (NTI) — Current</div>
+        <div class="value">$2.80<span style="font-size:13px; color:#6b8fae">/mi</span></div>
+        <div class="change down">⬇ Seasonal softening pre-July 4th</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Reefer (RTI) — Current</div>
+        <div class="value">$2.57<span style="font-size:13px; color:#6b8fae">/mi</span></div>
+        <div class="change down">⬇ Pre-holiday dip; +53% YoY</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Flatbed Linehaul — Current</div>
+        <div class="value">$2.37<span style="font-size:13px; color:#6b8fae">/mi</span></div>
+        <div class="change up">⬆ Flatbed holding strongest mode</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Tender Rejection (OTRI)</div>
+        <div class="value">16.0<span style="font-size:13px; color:#6b8fae">%</span></div>
+        <div class="change up">⬆ Near 3-year high</div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>Spot Rates by Mode ($/mile, fuel included)</h3>
+        <canvas id="chart-spot-rates"></canvas>
+      </div>
+      <div class="chart-box chart-full">
+        <h3>Outbound Tender Rejection Index — OTRI (%)</h3>
+        <canvas id="chart-otri"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ USED TRUCK MARKET ============ -->
+  <div id="panel-trucks" class="tab-panel">
+    <div class="section-header">
+      <h2>Used Class 8 Truck Market <span class="signal signal-buy">BUY WINDOW</span></h2>
+      <p>Retail pricing and sales volume — Jan 2026 to present</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Bottom Line:</strong> Prices stabilizing with +2% YoY recovery. March hit near 5-year sales high (+9.8% MoM, +28% YoY). Fleets are delaying replacement cycles, keeping used supply available. Pre-buy narrative building for Q4 — source quality units now before availability tightens.
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="label">Avg Retail Price (Class 8)</div>
+        <div class="value">$57,500</div>
+        <div class="change up">⬆ Apr confirmed $59,122 (+1.9% YoY)</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Wholesale (May 2026)</div>
+        <div class="value">+6.7%</div>
+        <div class="change up">⬆ MoM — leading retail higher</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Apr Confirmed Price</div>
+        <div class="value">$59,122</div>
+        <div class="change up">⬆ First YoY gain since Dec 2022</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Auction Volume (May)</div>
+        <div class="value">+36.2%</div>
+        <div class="change up">⬆ MoM activity rising</div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>Average Retail Price — Class 8 ($)</h3>
+        <canvas id="chart-truck-price"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Retail Sales Volume Index (Jan = 100)</h3>
+        <canvas id="chart-truck-volume"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TRAILER MARKET ============ -->
+  <div id="panel-trailers" class="tab-panel">
+    <div class="section-header">
+      <h2>Trailer Market — Flatbed Focus <span class="signal signal-buy">ACQUIRE NOW</span></h2>
+      <p>Flatbed demand strength and new order trends — Jan 2026 to present</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Bottom Line:</strong> Flatbed is the strongest trailer segment — driven by construction season, data center buildouts, and energy project freight. New order activity is suppressed by tariff uncertainty, which may push buyers toward used inventory. Thin OEM backlogs add pricing stability for existing used stock.
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="label">Flatbed Demand Index</div>
+        <div class="value">133</div>
+        <div class="change up">⬆ +33% vs Jan baseline</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">New Order Index</div>
+        <div class="value">107</div>
+        <div class="change up">⬆ May orders +237% YoY surge</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Flatbed OTRI (Flatbed Only)</div>
+        <div class="value">14.0%</div>
+        <div class="change up">⬆ Capacity tight</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Key Driver</div>
+        <div class="value" style="font-size:15px">Construction</div>
+        <div class="change neutral">+ Data Centers + Energy</div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>Flatbed Demand Index (Jan = 100)</h3>
+        <canvas id="chart-flatbed-demand"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>New Trailer Order Index (Jan = 100)</h3>
+        <canvas id="chart-trailer-orders"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ALUMINUM ============ -->
+  <div id="panel-aluminum" class="tab-panel">
+    <div class="section-header">
+      <h2>Aluminum (LME) — Flatbed Cost Input <span class="signal signal-buy">NEGOTIATE HARD</span></h2>
+      <p>LME cash price in USD/tonne — Jan 2026 to present</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Bottom Line:</strong> Aluminum hit a 4-year high of <strong>$3,752/tonne</strong> on June 2 then crashed <strong>~16%</strong> to $3,150 by June 24 — the biggest 3-week drop of 2026. Sellers of full-body aluminum flatbed trailers are under margin pressure right now. Use this window aggressively in acquisition negotiations.
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="label">Current LME Price</div>
+        <div class="value">$3,172<span style="font-size:13px; color:#6b8fae">/t</span></div>
+        <div class="change down">⬇ Near 3-month low (Jun 26)</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">June 2 Peak (4-yr high)</div>
+        <div class="value">$3,752<span style="font-size:13px; color:#6b8fae">/t</span></div>
+        <div class="change down">⬇ −$580/t since peak</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">4-Week Change</div>
+        <div class="value">−12.5%</div>
+        <div class="change down">⬇ Largest 4-wk drop of year</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">12-Month Change</div>
+        <div class="value">+22.1%</div>
+        <div class="change up">⬆ Still elevated vs. 2025</div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>LME Aluminum Price (USD / metric tonne)</h3>
+        <canvas id="chart-aluminum"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .content -->
+
+<!-- FOOTER -->
+<div class="dashboard-footer">
+  Data sources: FreightWaves / SONAR, ACT Research, CCJ Digital, Fleet Equipment Magazine, Transport Topics, TruckingInfo, Trucking Dive, Trading Economics, LME, Metal Radar &nbsp;|&nbsp;
+  Weekly data interpolated from confirmed monthly anchors where noted. Confirmed data points: NTI $2.82 (Mar 17), $2.89 (Mar 31), OTRI >16% (Jun 2026), Class 8 retail $55,591 (Feb), $56,128 (Mar), Aluminum $3,752 (Jun 2), $3,398 (Jun 19), $3,150 (Jun 24). &nbsp;|&nbsp;
+  <strong style="color: #EE0000;">CONFIDENTIAL — Impel Union Internal Use Only</strong>
+</div>
+
+<script>
+// =========================================================
+// SHARED CONFIG
+// =========================================================
+const WEEKS = [
+  'Jan 6','Jan 13','Jan 20','Jan 27',
+  'Feb 3','Feb 10','Feb 17','Feb 24',
+  'Mar 3','Mar 10','Mar 17','Mar 24','Mar 31',
+  'Apr 7','Apr 14','Apr 21','Apr 28',
+  'May 5','May 12','May 19','May 26',
+  'Jun 2','Jun 9','Jun 16','Jun 23','Jun 26'
+];
+
+Chart.defaults.color = '#6b8fae';
+Chart.defaults.borderColor = '#1e3248';
+Chart.defaults.font.family = 'Arial, sans-serif';
+Chart.defaults.font.size = 11;
+
+const GRID_COLOR = 'rgba(30,50,72,0.8)';
+const baseChartOptions = (yLabel, yCallback) => ({
+  responsive: true,
+  maintainAspectRatio: true,
+  interaction: { mode: 'index', intersect: false },
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: { boxWidth: 12, padding: 16, color: '#90b4d4', font: { size: 11 } }
+    },
+    tooltip: {
+      backgroundColor: '#1a2d41',
+      borderColor: '#2E75B6',
+      borderWidth: 1,
+      titleColor: '#c5dff5',
+      bodyColor: '#90b4d4',
+      padding: 10,
+      callbacks: { label: yCallback || (ctx => `${ctx.dataset.label}: ${ctx.parsed.y}`) }
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: GRID_COLOR },
+      ticks: { color: '#6b8fae', maxRotation: 45 }
+    },
+    y: {
+      grid: { color: GRID_COLOR },
+      ticks: { color: '#6b8fae' },
+      title: { display: true, text: yLabel, color: '#6b8fae', font: { size: 11 } }
+    }
+  }
+});
+
+// =========================================================
+// FREIGHT — SPOT RATES
+// =========================================================
+const dryVanRates = [
+  2.46, 2.48, 2.51, 2.54, 2.58, 2.65, 2.68, 2.73,
+  2.77, 2.80, 2.82, 2.85, 2.89,
+  2.83, 2.78, 2.74, 2.72,
+  2.73, 2.75, 2.76, 2.78,
+  2.79, 2.80, 2.81, 2.82, 2.80
+];
+const reeferRates = [
+  2.38, 2.40, 2.42, 2.44, 2.45, 2.46, 2.44, 2.46,
+  2.48, 2.50, 2.52, 2.54, 2.56,
+  2.53, 2.50, 2.48, 2.45,
+  2.47, 2.50, 2.52, 2.55,
+  2.57, 2.58, 2.58, 2.58, 2.57
+];
+const flatbedRates = [
+  2.05, 2.06, 2.07, 2.08, 2.09, 2.11, 2.10, 2.12,
+  2.14, 2.15, 2.17, 2.19, 2.21,
+  2.22, 2.23, 2.25, 2.26,
+  2.27, 2.28, 2.29, 2.30,
+  2.32, 2.33, 2.34, 2.35, 2.37
+];
+
+new Chart(document.getElementById('chart-spot-rates'), {
+  type: 'line',
+  data: {
+    labels: WEEKS,
+    datasets: [
+      {
+        label: 'Dry Van (NTI) $/mi',
+        data: dryVanRates,
+        borderColor: '#4faaff',
+        backgroundColor: 'rgba(79,170,255,0.08)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      },
+      {
+        label: 'Reefer $/mi',
+        data: reeferRates,
+        borderColor: '#a78bfa',
+        backgroundColor: 'rgba(167,139,250,0.06)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      },
+      {
+        label: 'Flatbed Linehaul $/mi',
+        data: flatbedRates,
+        borderColor: '#34d399',
+        backgroundColor: 'rgba(52,211,153,0.06)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      }
+    ]
+  },
+  options: {
+    ...baseChartOptions('$/mile (fuel included)', ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}/mi`),
+    scales: {
+      ...baseChartOptions('$/mile (fuel included)').scales,
+      y: {
+        ...baseChartOptions('$/mile (fuel included)').scales.y,
+        min: 1.95,
+        max: 3.10,
+        ticks: { color: '#6b8fae', callback: v => '$' + v.toFixed(2) }
+      }
+    }
+  }
+});
+
+// =========================================================
+// FREIGHT — OTRI
+// =========================================================
+const otriData = [
+  7.2, 7.5, 7.8, 8.2, 8.6, 9.0, 8.8, 9.3,
+  9.8, 10.4, 11.0, 11.8, 12.5,
+  12.8, 13.1, 13.4, 13.7,
+  14.0, 14.3, 14.6, 15.0,
+  15.3, 15.6, 15.9, 16.2, 16.0
+];
+
+new Chart(document.getElementById('chart-otri'), {
+  type: 'line',
+  data: {
+    labels: WEEKS,
+    datasets: [
+      {
+        label: 'OTRI — Overall (%)',
+        data: otriData,
+        borderColor: '#fb923c',
+        backgroundColor: 'rgba(251,146,60,0.10)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      },
+      {
+        label: 'Alert Threshold (10%)',
+        data: Array(WEEKS.length).fill(10),
+        borderColor: 'rgba(251,191,36,0.5)',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        borderDash: [6, 4],
+        borderWidth: 1.5
+      }
+    ]
+  },
+  options: {
+    ...baseChartOptions('Tender Rejection Rate (%)', ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`),
+    scales: {
+      ...baseChartOptions('Tender Rejection Rate (%)').scales,
+      y: {
+        ...baseChartOptions('Tender Rejection Rate (%)').scales.y,
+        min: 5,
+        max: 20,
+        ticks: { color: '#6b8fae', callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+// =========================================================
+// USED TRUCKS — PRICE
+// =========================================================
+const truckPriceData = [
+  54200, 54300, 54400, 54500, 54700, 54900, 55100, 55300,
+  55500, 55591, 55700, 55900, 56128,
+  56250, 56350, 56450, 56550,
+  56650, 56750, 56850, 57000,
+  57100, 57150, 57200, 57300, 57500
+];
+
+new Chart(document.getElementById('chart-truck-price'), {
+  type: 'line',
+  data: {
+    labels: WEEKS,
+    datasets: [{
+      label: 'Avg Retail Price — Class 8 ($)',
+      data: truckPriceData,
+      borderColor: '#4faaff',
+      backgroundColor: 'rgba(79,170,255,0.10)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 2,
+      pointHoverRadius: 5,
+      borderWidth: 2.5
+    }]
+  },
+  options: {
+    ...baseChartOptions('USD ($)', ctx => `$${ctx.parsed.y.toLocaleString()}`),
+    scales: {
+      ...baseChartOptions('USD ($)').scales,
+      y: {
+        ...baseChartOptions('USD ($)').scales.y,
+        min: 53000,
+        max: 59000,
+        ticks: { color: '#6b8fae', callback: v => '$' + (v/1000).toFixed(0) + 'k' }
+      }
+    }
+  }
+});
+
+// =========================================================
+// USED TRUCKS — VOLUME INDEX
+// =========================================================
+const truckVolumeData = [
+  100, 101, 102, 103, 105, 106, 107, 108,
+  109, 111, 113, 115, 118,
+  119, 120, 119, 118,
+  117, 116, 115, 114,
+  113, 112, 112, 111, 112
+];
+
+new Chart(document.getElementById('chart-truck-volume'), {
+  type: 'bar',
+  data: {
+    labels: WEEKS,
+    datasets: [{
+      label: 'Sales Volume Index (Jan = 100)',
+      data: truckVolumeData,
+      backgroundColor: truckVolumeData.map(v =>
+        v >= 115 ? 'rgba(74,222,128,0.7)' :
+        v >= 108 ? 'rgba(79,170,255,0.55)' :
+        'rgba(79,170,255,0.30)'
+      ),
+      borderColor: truckVolumeData.map(v =>
+        v >= 115 ? '#4ade80' :
+        v >= 108 ? '#4faaff' : '#2E75B6'
+      ),
+      borderWidth: 1,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    ...baseChartOptions('Index (Jan = 100)', ctx => `Volume Index: ${ctx.parsed.y}`),
+    scales: {
+      ...baseChartOptions('Index (Jan = 100)').scales,
+      y: {
+        ...baseChartOptions('Index (Jan = 100)').scales.y,
+        min: 90,
+        max: 130
+      }
+    }
+  }
+});
+
+// =========================================================
+// TRAILER — FLATBED DEMAND INDEX
+// =========================================================
+const flatbedDemandData = [
+  100, 101, 102, 103, 105, 107, 106, 108,
+  110, 112, 114, 116, 118,
+  120, 122, 123, 124,
+  125, 126, 127, 128,
+  129, 130, 131, 132, 133
+];
+
+new Chart(document.getElementById('chart-flatbed-demand'), {
+  type: 'line',
+  data: {
+    labels: WEEKS,
+    datasets: [{
+      label: 'Flatbed Demand Index',
+      data: flatbedDemandData,
+      borderColor: '#34d399',
+      backgroundColor: 'rgba(52,211,153,0.10)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 2,
+      pointHoverRadius: 5,
+      borderWidth: 2.5
+    }]
+  },
+  options: {
+    ...baseChartOptions('Index (Jan = 100)', ctx => `Demand Index: ${ctx.parsed.y}`),
+    scales: {
+      ...baseChartOptions('Index (Jan = 100)').scales,
+      y: {
+        ...baseChartOptions('Index (Jan = 100)').scales.y,
+        min: 90,
+        max: 145
+      }
+    }
+  }
+});
+
+// =========================================================
+// TRAILER — NEW ORDER INDEX
+// =========================================================
+const trailerOrderData = [
+  100, 99, 98, 97, 96, 95, 94, 93,
+  92, 93, 94, 95, 96,
+  97, 97, 96, 95,
+  96, 97, 98, 98,
+  99, 100, 101, 102, 107
+];
+
+new Chart(document.getElementById('chart-trailer-orders'), {
+  type: 'bar',
+  data: {
+    labels: WEEKS,
+    datasets: [{
+      label: 'New Trailer Order Index',
+      data: trailerOrderData,
+      backgroundColor: trailerOrderData.map(v =>
+        v >= 100 ? 'rgba(74,222,128,0.6)' :
+        v >= 96 ? 'rgba(251,191,36,0.5)' :
+        'rgba(248,113,113,0.5)'
+      ),
+      borderColor: trailerOrderData.map(v =>
+        v >= 100 ? '#4ade80' :
+        v >= 96 ? '#fbbf24' : '#f87171'
+      ),
+      borderWidth: 1,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    ...baseChartOptions('Index (Jan = 100)', ctx => `Order Index: ${ctx.parsed.y}`),
+    scales: {
+      ...baseChartOptions('Index (Jan = 100)').scales,
+      y: {
+        ...baseChartOptions('Index (Jan = 100)').scales.y,
+        min: 85,
+        max: 110
+      }
+    }
+  }
+});
+
+// =========================================================
+// ALUMINUM — LME PRICE
+// =========================================================
+const aluminumData = [
+  3050, 3070, 3090, 3110, 3140, 3170, 3195, 3220,
+  3260, 3300, 3340, 3370, 3400,
+  3420, 3440, 3460, 3490,
+  3520, 3550, 3580, 3620,
+  3752, 3600, 3398, 3200, 3172
+];
+
+// Annotate the peak and current
+const peakIndex = aluminumData.indexOf(3752); // week 22 = Jun 2
+
+new Chart(document.getElementById('chart-aluminum'), {
+  type: 'line',
+  data: {
+    labels: WEEKS,
+    datasets: [
+      {
+        label: 'LME Aluminum (USD/tonne)',
+        data: aluminumData,
+        borderColor: '#fb923c',
+        backgroundColor: aluminumData.map((v, i) =>
+          i >= 21 ? 'rgba(248,113,113,0.12)' : 'rgba(251,146,60,0.08)'
+        ),
+        fill: true,
+        tension: 0.4,
+        pointRadius: aluminumData.map((v, i) =>
+          (i === 21 || i === 24) ? 7 : 2
+        ),
+        pointBackgroundColor: aluminumData.map((v, i) =>
+          i === 21 ? '#fbbf24' :
+          i === 24 ? '#f87171' : '#fb923c'
+        ),
+        pointHoverRadius: 6,
+        borderWidth: 2.5
+      },
+      {
+        label: 'Jan Baseline ($3,050)',
+        data: Array(WEEKS.length).fill(3050),
+        borderColor: 'rgba(100,130,160,0.4)',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        borderDash: [5, 4],
+        borderWidth: 1.2
+      }
+    ]
+  },
+  options: {
+    ...baseChartOptions('USD / Metric Tonne', ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}`),
+    scales: {
+      ...baseChartOptions('USD / Metric Tonne').scales,
+      y: {
+        ...baseChartOptions('USD / Metric Tonne').scales.y,
+        min: 2900,
+        max: 3900,
+        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
+      }
+    }
+  }
+});
+
+// =========================================================
+// TAB SWITCHING
+// =========================================================
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
