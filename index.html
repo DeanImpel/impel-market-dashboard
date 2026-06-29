@@ -399,8 +399,14 @@
     </div>
     <div class="chart-grid">
       <div class="chart-box chart-full">
-        <h3>LME Aluminum Price (USD / metric tonne)</h3>
+        <h3>LME Aluminum Price — 2026 (USD / metric tonne)</h3>
         <canvas id="chart-aluminum"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>LME Aluminum Price — 2025 Reference (USD / metric tonne) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— same weekly timeline, prior year</span></h3>
+        <canvas id="chart-aluminum-2025"></canvas>
       </div>
     </div>
   </div>
@@ -833,14 +839,4 @@ new Chart(document.getElementById('chart-aluminum'), {
 });
 
 // =========================================================
-// TAB SWITCHING
-// =========================================================
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
-}
-</script>
-</body>
-</html>
+// ALUMINUM — 2025 REFERENC
