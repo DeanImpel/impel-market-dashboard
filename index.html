@@ -341,7 +341,7 @@
       <div class="stat-card">
         <div class="label">New Order Index</div>
         <div class="value">109</div>
-        <div class="change up">⬆ May orders +237% YoY; build slots filling</div>
+        <div class="change up">⬆ May orders +249% YoY (FTR); build slots filling</div>
       </div>
       <div class="stat-card">
         <div class="label">Flatbed OTRI (Flatbed Only)</div>
@@ -416,7 +416,7 @@
 <!-- FOOTER -->
 <div class="dashboard-footer">
   Data sources: FreightWaves / SONAR, ACT Research, CCJ Digital, Fleet Equipment Magazine, Transport Topics, TruckingInfo, Trucking Dive, Trading Economics, LME, Metal Radar &nbsp;|&nbsp;
-  Weekly data interpolated from confirmed monthly anchors where noted. Confirmed data points: NTI $2.82 (Mar 17), $2.89 (Mar 31), OTRI >16% (Jun 2026), Class 8 retail $55,591 (Feb), $56,128 (Mar), Aluminum $3,752 (Jun 2), $3,398 (Jun 19), $3,150 (Jun 24). &nbsp;|&nbsp;
+  Weekly data interpolated from confirmed monthly anchors where noted. Confirmed data points: NTI $2.82 (Mar 17), $2.89 (Mar 31), OTRI >16% (Jun 2026), Class 8 retail $55,591 (Feb), $56,128 (Mar), $59,122 (Apr), Aluminum $3,752 (Jun 2), $3,398 (Jun 19), $3,150 (Jun 24), $3,224 (Jun 29). DAT Jun 29: DV $2.74/mi, Reefer $3.05/mi, Flatbed $3.30/mi (13th consec. gain). &nbsp;|&nbsp;
   <strong style="color: #EE0000;">CONFIDENTIAL — Impel Union Internal Use Only</strong>
 </div>
 
@@ -832,11 +832,4 @@ new Chart(document.getElementById('chart-aluminum'), {
         ...baseChartOptions('USD / Metric Tonne').scales.y,
         min: 2900,
         max: 3900,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
-      }
-    }
-  }
-});
-
-// =========================================================
-// ALUMINUM — 2025 REFERENC
+        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString
