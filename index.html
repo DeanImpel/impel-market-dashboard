@@ -232,6 +232,9 @@
   <button class="tab-btn" onclick="switchTab('aluminum', this)">
     <span class="tab-emoji">⚙️</span>Aluminum Prices
   </button>
+  <button class="tab-btn" onclick="switchTab('alsignals', this)">
+    <span class="tab-emoji">⚗️</span>Aluminum Signals
+  </button>
 </div>
 
 <!-- CONTENT -->
@@ -407,6 +410,59 @@
       <div class="chart-box chart-full">
         <h3>LME Aluminum Price — 2025 Full Year (USD / metric tonne) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— Jan 6 through Dec 29, 2025</span></h3>
         <canvas id="chart-aluminum-2025"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ ALUMINUM SIGNALS ============ -->
+  <div id="panel-alsignals" class="tab-panel">
+    <div class="section-header">
+      <h2>Aluminum Signal Intelligence <span class="signal signal-buy">BUY WINDOW ↓</span></h2>
+      <p>Supply, cost/margin, demand &amp; macro signals — Jan 2026 to present</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Net Signal:</strong> LME stocks drawing down (🟢) + DXY weakening (🟢) + Hormuz elevated risk (🟢) — partially offset by alumina softening (🔴 lower smelter costs = more supply potential) and no new China stimulus since Jun 12. <strong>Verdict: Modestly bullish.</strong> Aluminum is 14% off its Jun 2 peak; physical demand signals suggest the floor is forming. Press acquisition negotiations now before the drawdown pace accelerates and prices recover.
+    </div>
+
+    <div style="margin-bottom:8px; font-size:11px; color:#6b8fae; text-transform:uppercase; letter-spacing:0.8px;">Qualitative Status Signals — Updated Daily by APEX</div>
+    <div class="stats-row">
+      <div class="stat-card" data-signal="shfe">
+        <div class="label">SHFE Inventories (China)</div>
+        <div class="value">—</div>
+        <div class="change neutral">Loading...</div>
+      </div>
+      <div class="stat-card" data-signal="power">
+        <div class="label">China Power / Smelter Curtailments</div>
+        <div class="value" style="font-size:15px;">—</div>
+        <div class="change neutral">Loading...</div>
+      </div>
+      <div class="stat-card" data-signal="hormuz">
+        <div class="label">Strait of Hormuz</div>
+        <div class="value" style="font-size:15px;">—</div>
+        <div class="change neutral">Loading...</div>
+      </div>
+      <div class="stat-card" data-signal="stimulus">
+        <div class="label">China Stimulus — Last Signal</div>
+        <div class="value" style="font-size:15px;">—</div>
+        <div class="change neutral">Loading...</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>Alumina Spot Price — USD/tonne <span style="font-size:10px;color:#6b8fae;font-weight:400;text-transform:none;letter-spacing:0">↑ rising = smelter margin pressure = bullish Al long-term</span></h3>
+        <canvas id="chart-alumina"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>US Dollar Index — DXY <span style="font-size:10px;color:#6b8fae;font-weight:400;text-transform:none;letter-spacing:0">↓ falling = bullish for dollar-priced commodities</span></h3>
+        <canvas id="chart-dxy"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>LME Aluminum Warehouse Stocks — 000s tonnes <span style="font-size:10px;color:#6b8fae;font-weight:400;text-transform:none;letter-spacing:0">↓ falling = physical buyers pulling metal off exchange = bullish</span></h3>
+        <canvas id="chart-lme-stocks"></canvas>
       </div>
     </div>
   </div>
@@ -720,117 +776,4 @@ new Chart(document.getElementById('chart-flatbed-demand'), {
     ...baseChartOptions('Index (Jan = 100)', ctx => `Demand Index: ${ctx.parsed.y}`),
     scales: {
       ...baseChartOptions('Index (Jan = 100)').scales,
-      y: {
-        ...baseChartOptions('Index (Jan = 100)').scales.y,
-        min: 90,
-        max: 145
-      }
-    }
-  }
-});
-
-// =========================================================
-// TRAILER — NEW ORDER INDEX
-// =========================================================
-const trailerOrderData = [
-  100, 99, 98, 97, 96, 95, 94, 93,
-  92, 93, 94, 95, 96,
-  97, 97, 96, 95,
-  96, 97, 98, 98,
-  99, 100, 101, 102, 107, 109
-];
-
-new Chart(document.getElementById('chart-trailer-orders'), {
-  type: 'bar',
-  data: {
-    labels: WEEKS,
-    datasets: [{
-      label: 'New Trailer Order Index',
-      data: trailerOrderData,
-      backgroundColor: trailerOrderData.map(v =>
-        v >= 100 ? 'rgba(74,222,128,0.6)' :
-        v >= 96 ? 'rgba(251,191,36,0.5)' :
-        'rgba(248,113,113,0.5)'
-      ),
-      borderColor: trailerOrderData.map(v =>
-        v >= 100 ? '#4ade80' :
-        v >= 96 ? '#fbbf24' : '#f87171'
-      ),
-      borderWidth: 1,
-      borderRadius: 3
-    }]
-  },
-  options: {
-    ...baseChartOptions('Index (Jan = 100)', ctx => `Order Index: ${ctx.parsed.y}`),
-    scales: {
-      ...baseChartOptions('Index (Jan = 100)').scales,
-      y: {
-        ...baseChartOptions('Index (Jan = 100)').scales.y,
-        min: 85,
-        max: 110
-      }
-    }
-  }
-});
-
-// =========================================================
-// ALUMINUM — LME PRICE
-// =========================================================
-const aluminumData = [
-  3050, 3070, 3090, 3110, 3140, 3170, 3195, 3220,
-  3260, 3300, 3340, 3370, 3400,
-  3420, 3440, 3460, 3490,
-  3520, 3550, 3580, 3620,
-  3752, 3600, 3398, 3200, 3172, 3224
-];
-
-// Annotate the peak and current
-const peakIndex = aluminumData.indexOf(3752); // week 22 = Jun 2
-
-new Chart(document.getElementById('chart-aluminum'), {
-  type: 'line',
-  data: {
-    labels: WEEKS,
-    datasets: [
-      {
-        label: 'LME Aluminum (USD/tonne)',
-        data: aluminumData,
-        borderColor: '#fb923c',
-        backgroundColor: aluminumData.map((v, i) =>
-          i >= 21 ? 'rgba(248,113,113,0.12)' : 'rgba(251,146,60,0.08)'
-        ),
-        fill: true,
-        tension: 0.4,
-        pointRadius: aluminumData.map((v, i) =>
-          (i === 21 || i === 24) ? 7 : 2
-        ),
-        pointBackgroundColor: aluminumData.map((v, i) =>
-          i === 21 ? '#fbbf24' :
-          i === 24 ? '#f87171' : '#fb923c'
-        ),
-        pointHoverRadius: 6,
-        borderWidth: 2.5
-      },
-      {
-        label: 'Jan Baseline ($3,050)',
-        data: Array(WEEKS.length).fill(3050),
-        borderColor: 'rgba(100,130,160,0.4)',
-        backgroundColor: 'transparent',
-        fill: false,
-        tension: 0,
-        pointRadius: 0,
-        borderDash: [5, 4],
-        borderWidth: 1.2
-      }
-    ]
-  },
-  options: {
-    ...baseChartOptions('USD / Metric Tonne', ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}`),
-    scales: {
-      ...baseChartOptions('USD / Metric Tonne').scales,
-      y: {
-        ...baseChartOptions('USD / Metric Tonne').scales.y,
-        min: 2900,
-        max: 3900,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
  
