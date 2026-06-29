@@ -405,7 +405,7 @@
     </div>
     <div class="chart-grid">
       <div class="chart-box chart-full">
-        <h3>LME Aluminum Price — 2025 Reference (USD / metric tonne) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— same weekly timeline, prior year</span></h3>
+        <h3>LME Aluminum Price — 2025 Full Year (USD / metric tonne) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— Jan 6 through Dec 29, 2025</span></h3>
         <canvas id="chart-aluminum-2025"></canvas>
       </div>
     </div>
@@ -832,4 +832,5 @@ new Chart(document.getElementById('chart-aluminum'), {
         ...baseChartOptions('USD / Metric Tonne').scales.y,
         min: 2900,
         max: 3900,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString
+        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
+ 
