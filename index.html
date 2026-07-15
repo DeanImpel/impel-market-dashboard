@@ -428,11 +428,6 @@
     <div style="margin-bottom:8px; font-size:11px; color:#6b8fae; text-transform:uppercase; letter-spacing:0.8px;">Macro / Flow — Updated Daily by APEX</div>
     <div class="stats-row">
       <div class="stat-card">
-        <div class="label">€ per $1 (Dean's Conversion Rate)</div>
-        <div class="value">€0.8756</div>
-        <div class="change down">🔴 -0.23% vs. Jul 14 — EUR/USD ~1.1421 (reference) — cooler June CPI reversed dollar strength despite Hormuz blockade resuming</div>
-      </div>
-      <div class="stat-card">
         <div class="label">US Dollar Index (DXY)</div>
         <div class="value">100.79</div>
         <div class="change down">⬇ -0.13% — 2nd consecutive losing session on cooler-than-expected June CPI (3.5% YoY vs 3.8% forecast)</div>
@@ -479,12 +474,6 @@
         <canvas id="chart-lme-stocks"></canvas>
       </div>
     </div>
-    <div class="chart-grid">
-      <div class="chart-box chart-full">
-        <h3>€ Received per $1 — Dean's USD→EUR Conversion Tracker <span style="font-size:10px;color:#6b8fae;font-weight:400;text-transform:none;letter-spacing:0">↑ rising = more euros per dollar = favorable for Dean</span></h3>
-        <canvas id="chart-eur-per-dollar"></canvas>
-      </div>
-    </div>
   </div>
 
 </div><!-- end .content -->
@@ -492,7 +481,7 @@
 <!-- FOOTER -->
 <div class="dashboard-footer">
   Data sources: FreightWaves / SONAR, ACT Research, CCJ Digital, Fleet Equipment Magazine, Transport Topics, TruckingInfo, Trucking Dive, Trading Economics, LME, Metal Radar &nbsp;|&nbsp;
-  Weekly data interpolated from confirmed monthly anchors where noted. Jul 15: DV $2.90/mi, Reefer $2.86/mi, Flatbed $2.52/mi, OTRI 17.7% (carried forward, next SONAR print pending). Used Class 8 avg retail $59,200 (May ACT print $59,723 still latest confirmed; unconfirmed July trade-press reads conflict). Aluminum $3,175.60/t (+0.63% d/d), up 22.97% YoY. LME stocks 287,725 t (Jul 13, last confirmed), continuing drawdown; SHFE China consumption-area stocks down ~82k t WoW (4-yr high pace); alumina international benchmark ~$322/t (Jun 30, last confirmed) vs $308/t June avg. TTF European gas +2.56% to €54.53/MWh (Jul 15) on the resumed Hormuz naval blockade. DXY 100.79 (Jul 15), down 0.13%, 2nd consecutive losing session on cooler June CPI. EUR/USD ~1.1421 (Jul 15); € per $1 = €0.8756, -0.23% vs Jul 14. Strait of Hormuz: US naval blockade of Iranian ports resumed Jul 14 4pm ET; Trump proposed 20% security toll on Hormuz cargo (Jul 13); traffic collapsed to as few as 22 ships crossing Jul 9 vs 147 pre-war; risk assessed Critical. June CPI (released Jul 14): headline 3.5% YoY (down from 4.2% May, below 3.8% forecast), a cooler print that reversed some Hormuz-driven dollar strength. &nbsp;|&nbsp;
+  Weekly data interpolated from confirmed monthly anchors where noted. Jul 15: DV $2.90/mi, Reefer $2.86/mi, Flatbed $2.52/mi, OTRI 17.7% (carried forward, next SONAR print pending). Used Class 8 avg retail $59,200 (May ACT print $59,723 still latest confirmed; unconfirmed July trade-press reads conflict). Aluminum $3,175.60/t (+0.63% d/d), up 22.97% YoY. LME stocks 287,725 t (Jul 13, last confirmed), continuing drawdown; SHFE China consumption-area stocks down ~82k t WoW (4-yr high pace); alumina international benchmark ~$322/t (Jun 30, last confirmed) vs $308/t June avg. TTF European gas +2.56% to €54.53/MWh (Jul 15) on the resumed Hormuz naval blockade. DXY 100.79 (Jul 15), down 0.13%, 2nd consecutive losing session on cooler June CPI. Strait of Hormuz: US naval blockade of Iranian ports resumed Jul 14 4pm ET; Trump proposed 20% security toll on Hormuz cargo (Jul 13); traffic collapsed to as few as 22 ships crossing Jul 9 vs 147 pre-war; risk assessed Critical. June CPI (released Jul 14): headline 3.5% YoY (down from 4.2% May, below 3.8% forecast), a cooler print that reversed some Hormuz-driven dollar strength. &nbsp;|&nbsp;
   <strong style="color: #EE0000;">CONFIDENTIAL — Impel Union Internal Use Only</strong>
 </div>
 
@@ -1151,50 +1140,15 @@ new Chart(document.getElementById('chart-lme-stocks'), {
 });
 
 // =========================================================
-// ALUMINUM SIGNALS — EUR RECEIVED PER $1 (Dean's USD→EUR conversion tracker)
-// =========================================================
-const eurPerDollarData = [
-  0.9634, 0.9606, 0.9579, 0.9551,
-  0.9524, 0.9497, 0.9470, 0.9443,
-  0.9416, 0.9452, 0.9488, 0.9524, 0.9560,
-  0.9597, 0.9634, 0.9671, 0.9709,
-  0.9728, 0.9690, 0.9653, 0.9615,
-  0.9579, 0.9634, 0.9709, 0.9766, 0.9804, 0.9479, 0.9174, 0.9025, 0.8969, 0.8743, 0.8734, 0.8752, 0.8760, 0.8776, 0.8756
-];
-
-new Chart(document.getElementById('chart-eur-per-dollar'), {
-  type: 'line',
-  data: {
-    labels: WEEKS,
-    datasets: [{
-      label: '€ per $1',
-      data: eurPerDollarData,
-      borderColor: '#4ade80',
-      backgroundColor: 'rgba(74,222,128,0.10)',
-      fill: true,
-      tension: 0.4,
-      pointRadius: 2,
-      pointHoverRadius: 5,
-      borderWidth: 2.5
-    }]
-  },
-  options: {
-    ...baseChartOptions('€ received per $1', ctx => `€ per $1: €${ctx.parsed.y.toFixed(4)}`),
-    scales: {
-      ...baseChartOptions('€ received per $1').scales,
-      y: {
-        ...baseChartOptions('€ received per $1').scales.y,
-        min: 0.86,
-        max: 0.99,
-        ticks: { color: '#6b8fae', callback: v => '€' + v.toFixed(3) }
-      }
-    }
-  }
-});
-
-// =========================================================
 // TAB SWITCHING
 // =========================================================
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  docu
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
