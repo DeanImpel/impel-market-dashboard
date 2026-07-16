@@ -240,14 +240,29 @@
 <!-- CONTENT -->
 <div class="content">
 
+  <!-- ============ DECISION BANNER — why this dashboard exists ============ -->
+  <div style="background:#162030;border:1px solid #2E75B6;border-radius:10px;padding:16px 20px;margin-bottom:20px;">
+    <div style="font-size:11px;color:#6b8fae;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">This Dashboard Exists To Answer Two Decisions — Not Just Report Prices</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:280px;">
+        <div style="font-size:13px;color:#c5dff5;line-height:1.5;margin-bottom:8px;"><strong style="color:#fff;">1. Truck &amp; Trailer Buy Window</strong> — We buy today; the unit lands on our lot in <strong style="color:#fff;">3–4 weeks</strong>. Freight, used-truck, and trailer signals exist to answer one question: is it cheap <em>right now</em> relative to where resale pricing will be when it arrives? If yes → buy, including pre-order commitments.</div>
+        <span class="signal signal-buy">VERDICT: BUY NOW</span>
+      </div>
+      <div style="flex:1;min-width:280px;">
+        <div style="font-size:13px;color:#c5dff5;line-height:1.5;margin-bottom:8px;"><strong style="color:#fff;">2. Reitnouer Aluminum Negotiation</strong> — Reitnouer sells us full-aluminum flatbeds; aluminum signals exist to forecast price direction over the next <strong style="color:#fff;">3–6 months</strong> of their production, so we know whether to lock their current price or push for a discount before committing.</div>
+        <span class="signal signal-buy">VERDICT: LOCK PRICE NOW</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ FREIGHT MARKET ============ -->
   <div id="panel-freight" class="tab-panel active">
     <div class="section-header">
-      <h2>Freight Market <span class="signal signal-buy">TIGHT ↑</span></h2>
-      <p>Spot rates, linehaul rates, and capacity utilization — Jan 2026 to present</p>
+      <h2>Freight Market <span class="signal signal-buy">TIGHT ↑ → BUY SIGNAL</span></h2>
+      <p>Leading indicator for truck/trailer resale demand — read this tab as: will fleets need more capacity 3–4 weeks from now?</p>
     </div>
     <div class="bottom-line">
-      <strong>Bottom Line:</strong> Freight capacity is tightening on both sides now — record July container import volumes (2.47M TEUs) are adding real demand on top of the ongoing carrier-attrition story, while the Strait of Hormuz has escalated into active US-Iran strikes. Dry van, reefer, and flatbed are all extending their runs near record levels.
+      <strong>What this means for us:</strong> Freight is tightening on both sides — record July container imports (2.47M TEUs) plus ongoing carrier attrition plus an active Hormuz war. Tight freight today means fleets will still be short on capacity when our current purchases hit the lot in 3–4 weeks — that supports the resale price on trucks/trailers we buy this week. <strong>Read: buy now, don't wait for a pullback that isn't showing up in the data.</strong>
     </div>
     <div class="stats-row">
       <div class="stat-card">
@@ -286,32 +301,32 @@
   <!-- ============ USED TRUCK MARKET ============ -->
   <div id="panel-trucks" class="tab-panel">
     <div class="section-header">
-      <h2>Used Class 8 Truck Market <span class="signal signal-buy">BUY WINDOW</span></h2>
-      <p>Retail pricing and sales volume — Jan 2026 to present</p>
+      <h2>Used Class 8 Truck Market <span class="signal signal-buy">BUY WINDOW ↑</span></h2>
+      <p>Acquire-today, sell-in-3–4-weeks math — is today's price cheap relative to where it lands when the unit is on our lot?</p>
     </div>
     <div class="bottom-line">
-      <strong>Bottom Line:</strong> ACT's preliminary June print jumped to avg retail $61,000 (+5.0% MoM), with same-dealer retail sales +11% MoM — a much cleaner confirmation than the conflicting July trade-press figures flagged previously. Inventory tightness is now showing up directly in price — a seller's market.
+      <strong>What this means for us:</strong> ACT's June print confirmed avg retail at $61,000 (+5.0% MoM), with same-dealer sales +11% MoM — inventory tightness is showing up directly in price, not just volume. At the current ~5%/month pace, a unit bought today at $61,000 is tracking toward roughly <strong>$62,900–$64,100 in 3–4 weeks</strong> purely from market drift, before any recon markup. <strong>Read: buy now — every week of delay costs an estimated $700–$1,000/unit in foregone appreciation, and the replacement unit will cost more too.</strong>
     </div>
     <div class="stats-row">
       <div class="stat-card">
-        <div class="label">Avg Retail Price (Class 8)</div>
+        <div class="label">Avg Retail Price (Class 8) — Today</div>
         <div class="value">$61,000</div>
         <div class="change up">⬆ +5.0% MoM (ACT June preliminary print, confirmed) — up from May's $59,723</div>
+      </div>
+      <div class="stat-card" style="border-color:#4ade80;">
+        <div class="label">Est. Resale Value — 3–4 Wks Out</div>
+        <div class="value">$62.9k–$64.1k</div>
+        <div class="change up">⬆ Extrapolated at current +5% MoM trend — the spread is our margin cushion</div>
       </div>
       <div class="stat-card">
         <div class="label">Same-Dealer Retail Sales</div>
         <div class="value">+11%</div>
-        <div class="change up">⬆ June MoM — well above typical ~2% seasonal gain</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Retail Volume Index</div>
-        <div class="value">114</div>
-        <div class="change up">⬆ Rising with confirmed June price/sales strength</div>
+        <div class="change up">⬆ June MoM — well above typical ~2% seasonal gain, confirms demand is real</div>
       </div>
       <div class="stat-card">
         <div class="label">Pre-Buy Signal (EPA 2027)</div>
         <div class="value" style="font-size:15px">Building</div>
-        <div class="change up">⬆ 2027-compliant trucks est. +$8-10k/unit; fleets deferring new-builds per ATRI</div>
+        <div class="change up">⬆ 2027-compliant trucks est. +$8-10k/unit; fleets deferring new-builds per ATRI — supports used pricing</div>
       </div>
     </div>
     <div class="chart-grid">
@@ -329,11 +344,11 @@
   <!-- ============ TRAILER MARKET ============ -->
   <div id="panel-trailers" class="tab-panel">
     <div class="section-header">
-      <h2>Trailer Market — Flatbed Focus <span class="signal signal-buy">ACQUIRE NOW</span></h2>
-      <p>Flatbed demand strength and new order trends — Jan 2026 to present</p>
+      <h2>Trailer Market — Flatbed Focus <span class="signal signal-buy">ACQUIRE NOW ↑</span></h2>
+      <p>Same buy-today/sell-in-3–4-weeks logic as trucks — backlog growth means today's price is the cheapest it'll be for a while</p>
     </div>
     <div class="bottom-line">
-      <strong>Bottom Line:</strong> Flatbed demand keeps climbing (index 145) — construction, energy, and infrastructure/data-center freight are providing a stronger floor than earlier in the cycle. May trailer orders surged 237% YoY to 20,700 units; the tightening window on used aluminum flatbeds keeps building.
+      <strong>What this means for us:</strong> Flatbed demand keeps climbing (index 145) and new orders are running +237% YoY — backlogs are growing, not shrinking, which means new-build lead times are stretching and used flatbeds become relatively more valuable the longer we wait. <strong>Read: acquire flatbed inventory now, including pre-order commitments — a rising backlog means the trailer we buy today is worth more by the time it lands on our lot in 3–4 weeks, not less.</strong>
     </div>
     <div class="stats-row">
       <div class="stat-card">
@@ -346,15 +361,15 @@
         <div class="value">123</div>
         <div class="change up">⬆ May orders +237% YoY to 20,700 units, despite typically slow seasonal conditions</div>
       </div>
-      <div class="stat-card">
-        <div class="label">Backlog</div>
+      <div class="stat-card" style="border-color:#4ade80;">
+        <div class="label">Backlog — Lead Time Signal</div>
         <div class="value">75,500+</div>
-        <div class="change up">⬆ Entering-2026 backlog 75,500 units, still climbing</div>
+        <div class="change up">⬆ Still climbing — longer new-build waits push buyers toward used inventory we hold</div>
       </div>
       <div class="stat-card">
         <div class="label">Cancellation Rate</div>
         <div class="value">1.4–1.8%</div>
-        <div class="change neutral">Steady — calmer than 2025 volatility</div>
+        <div class="change neutral">Steady and low — orders are sticking, not speculative froth</div>
       </div>
     </div>
     <div class="chart-grid">
@@ -372,13 +387,18 @@
   <!-- ============ ALUMINUM ============ -->
   <div id="panel-aluminum" class="tab-panel">
     <div class="section-header">
-      <h2>Aluminum (LME) — Flatbed Cost Input <span class="signal signal-buy">NEGOTIATE HARD</span></h2>
-      <p>LME cash price in USD/tonne — Jan 2026 to present</p>
+      <h2>Aluminum (LME) — Reitnouer Negotiation Input <span class="signal signal-buy">LOCK PRICE ↑</span></h2>
+      <p>Reitnouer prices their full-aluminum flatbeds off this input — this tab exists to call 3–6 month direction, not just today's tick</p>
     </div>
     <div class="bottom-line">
-      <strong>Bottom Line:</strong> Aluminum climbed to <strong>$3,172.25/tonne</strong> (+0.79% d/d) as LME stocks and cancelled warrants keep falling and the Strait of Hormuz has escalated into active US-Iran strikes. Macquarie now calls for a ~930,000-tonne global shortfall. Lock in recon material pricing now rather than wait.
+      <strong>What this means for Reitnouer:</strong> Aluminum is at <strong>$3,172.25/tonne</strong> (+0.79% d/d), and every structural signal — falling LME stocks, falling cancelled warrants, an active US-Iran war in the Hormuz supply corridor, and Macquarie's ~930,000-tonne global shortfall call — points to <strong>higher, not lower</strong>, prices over the 3–6 month window that would cover Reitnouer's next production run. <strong>Read: call Reitnouer now and lock the current price for the next 3–6 months of production — don't float and hope for a dip that the data doesn't support.</strong>
     </div>
     <div class="stats-row">
+      <div class="stat-card" style="border-color:#4ade80;">
+        <div class="label">3–6 Mo Price Direction</div>
+        <div class="value" style="font-size:17px;">↑ Rising Risk</div>
+        <div class="change up">⬆ Supply deficit + active Hormuz war = upside risk outweighs downside — lock, don't float</div>
+      </div>
       <div class="stat-card">
         <div class="label">Current LME Price</div>
         <div class="value">$3,172<span style="font-size:13px; color:#6b8fae">/t</span></div>
@@ -387,17 +407,12 @@
       <div class="stat-card">
         <div class="label">June 2 Peak (4-yr high)</div>
         <div class="value">$3,752<span style="font-size:13px; color:#6b8fae">/t</span></div>
-        <div class="change down">⬇ −$576/t since peak</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Since Peak</div>
-        <div class="value">−15.4%</div>
-        <div class="change down">⬇ Off the lows, but well below June peak</div>
+        <div class="change down">⬇ −$576/t since peak — today's price is still a discount to that peak, a reason to lock now</div>
       </div>
       <div class="stat-card">
         <div class="label">12-Month Change</div>
         <div class="value">~+23.0%</div>
-        <div class="change up">⬆ Still elevated vs. 2025</div>
+        <div class="change up">⬆ Still elevated vs. 2025 — the multi-year trend is up, not down</div>
       </div>
     </div>
     <div class="chart-grid">
@@ -418,11 +433,11 @@
   <!-- ============ ALUMINUM SIGNALS ============ -->
   <div id="panel-alsignals" class="tab-panel">
     <div class="section-header">
-      <h2>Aluminum Signal Intelligence <span class="signal signal-buy">BUY WINDOW ↓</span></h2>
-      <p>Supply, cost/margin, demand &amp; macro signals — Jan 2026 to present</p>
+      <h2>Aluminum Signal Intelligence <span class="signal signal-buy">LOCK PRICE ↑</span></h2>
+      <p>Every signal below rolls up into one question for Reitnouer: lock their current flatbed price for 3–6 months, or negotiate for a discount?</p>
     </div>
     <div class="bottom-line">
-      <strong>Net Signal:</strong> LME stocks fell further to 284,600 t (🟢) + cancelled warrants down 3.92% (🟢) + SHFE stocks down ~4.8% WoW, a 4-year-high withdrawal pace (🟢) + Macquarie forecasting a ~930k-tonne global shortfall (🟢) + European TTF gas up another 1.1% to €55.11/MWh on the Iran port blockade order (🟢) + China PMI 51.7 still expanding (🟡) — offset only by no confirmed China power curtailment this week (🟡) and a modestly firmer DXY (100.62, +0.14% intraday) (🔴) — while the Strait of Hormuz has escalated from a blockade into active US-Iran strikes, ~140 Iranian targets hit, traffic at a standstill (🟢🟢). <strong>Verdict: Supply signals are broadening bullish and the Hormuz risk premium just moved from "elevated" to "active war" — lock in recon material pricing now rather than waiting.</strong>
+      <strong>Net Signal → Reitnouer Call:</strong> LME stocks fell further to 284,600 t (🟢) + cancelled warrants down 3.92% (🟢) + SHFE stocks down ~4.8% WoW, a 4-year-high withdrawal pace (🟢) + Macquarie forecasting a ~930k-tonne global shortfall (🟢) + European TTF gas up another 1.1% to €55.11/MWh on the Iran port blockade order (🟢) + China PMI 51.7 still expanding (🟡) — offset only by no confirmed China power curtailment this week (🟡) and a modestly firmer DXY (100.62, +0.14% intraday) (🔴) — while the Strait of Hormuz has escalated from a blockade into active US-Iran strikes, ~140 Iranian targets hit, traffic at a standstill (🟢🟢). <strong>Verdict: 6 of 8 signals are bullish for aluminum prices over the next 3–6 months — call Reitnouer now and lock the current price for their next production run. Do not float; the risk is priced increases, not a discount opportunity.</strong>
     </div>
 
     <div style="margin-bottom:8px; font-size:11px; color:#6b8fae; text-transform:uppercase; letter-spacing:0.8px;">Macro / Flow — Updated Daily by APEX</div>
@@ -1029,125 +1044,4 @@ new Chart(document.getElementById('chart-alumina'), {
     }]
   },
   options: {
-    ...baseChartOptions('USD / tonne', ctx => `Alumina: $${ctx.parsed.y}`),
-    scales: {
-      ...baseChartOptions('USD / tonne').scales,
-      y: {
-        ...baseChartOptions('USD / tonne').scales.y,
-        min: 380,
-        max: 700,
-        ticks: { color: '#6b8fae', callback: v => '$' + v }
-      }
-    }
-  }
-});
-
-// =========================================================
-// ALUMINUM SIGNALS — US DOLLAR INDEX (DXY)
-// =========================================================
-const dxyData = [
-  108.2, 107.8, 107.5, 107.1,
-  106.8, 106.5, 106.2, 105.8,
-  105.5, 104.8, 104.2, 103.5, 102.8,
-  102.1, 101.5, 100.8, 100.2,
-  99.8, 99.5, 99.8, 100.1,
-  100.5, 100.2, 99.8, 99.4, 99.2, 101.3, 100.9, 101.1, 100.9, 101.1, 100.9, 100.94, 100.97, 101.29, 100.79, 100.62
-];
-
-new Chart(document.getElementById('chart-dxy'), {
-  type: 'line',
-  data: {
-    labels: WEEKS,
-    datasets: [
-      {
-        label: 'DXY',
-        data: dxyData,
-        borderColor: '#fbbf24',
-        backgroundColor: 'rgba(251,191,36,0.08)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 2,
-        pointHoverRadius: 5,
-        borderWidth: 2.5
-      },
-      {
-        label: 'Neutral (100)',
-        data: Array(WEEKS.length).fill(100),
-        borderColor: 'rgba(100,130,160,0.4)',
-        backgroundColor: 'transparent',
-        fill: false,
-        tension: 0,
-        pointRadius: 0,
-        borderDash: [5, 4],
-        borderWidth: 1.2
-      }
-    ]
-  },
-  options: {
-    ...baseChartOptions('DXY Level', ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}`),
-    scales: {
-      ...baseChartOptions('DXY Level').scales,
-      y: {
-        ...baseChartOptions('DXY Level').scales.y,
-        min: 94,
-        max: 114,
-        ticks: { color: '#6b8fae', callback: v => v.toFixed(0) }
-      }
-    }
-  }
-});
-
-// =========================================================
-// ALUMINUM SIGNALS — LME WAREHOUSE STOCKS (000s tonnes)
-// =========================================================
-const lmeStocksData = [
-  780, 765, 750, 738,
-  725, 715, 705, 698,
-  692, 688, 685, 682, 678,
-  672, 668, 665, 660,
-  655, 648, 642, 638,
-  635, 625, 610, 598, 592, 588, 583, 578, 576, 572, 566, 562, 559, 556, 288, 285
-];
-
-new Chart(document.getElementById('chart-lme-stocks'), {
-  type: 'line',
-  data: {
-    labels: WEEKS,
-    datasets: [{
-      label: 'LME Al Stocks (000s t)',
-      data: lmeStocksData,
-      borderColor: '#a78bfa',
-      backgroundColor: 'rgba(167,139,250,0.10)',
-      fill: true,
-      tension: 0.4,
-      pointRadius: 2,
-      pointHoverRadius: 5,
-      borderWidth: 2.5
-    }]
-  },
-  options: {
-    ...baseChartOptions('000s Tonnes', ctx => `LME Stocks: ${ctx.parsed.y}k t`),
-    scales: {
-      ...baseChartOptions('000s Tonnes').scales,
-      y: {
-        ...baseChartOptions('000s Tonnes').scales.y,
-        min: 500,
-        max: 900,
-        ticks: { color: '#6b8fae', callback: v => v + 'k' }
-      }
-    }
-  }
-});
-
-// =========================================================
-// TAB SWITCHING
-// =========================================================
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
-}
-</script>
-</body>
-</html>
+    ...baseChartOptions('USD / tonne', ctx => `Alumin
