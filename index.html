@@ -526,7 +526,7 @@ const baseChartOptions = (yLabel, yCallback) => ({
   scales: {
     x: {
       grid: { color: GRID_COLOR },
-      ticks: { color: '#6b8fae', maxRotation: 45 }
+      ticks: { color: '#6b8fae', maxRotation: 45, autoSkip: false, font: { size: 9 } }
     },
     y: {
       grid: { color: GRID_COLOR },
@@ -609,7 +609,7 @@ new Chart(document.getElementById('chart-spot-rates'), {
         ...baseChartOptions('$/mile (fuel included)').scales.y,
         min: 1.95,
         max: 3.10,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toFixed(2) }
+        ticks: { color: '#6b8fae', stepSize: 0.1, autoSkip: false, callback: v => '$' + v.toFixed(2) }
       }
     }
   }
@@ -663,7 +663,7 @@ new Chart(document.getElementById('chart-otri'), {
         ...baseChartOptions('Tender Rejection Rate (%)').scales.y,
         min: 5,
         max: 20,
-        ticks: { color: '#6b8fae', callback: v => v + '%' }
+        ticks: { color: '#6b8fae', stepSize: 1, autoSkip: false, callback: v => v + '%' }
       }
     }
   }
@@ -702,9 +702,9 @@ new Chart(document.getElementById('chart-truck-price'), {
       ...baseChartOptions('USD ($)').scales,
       y: {
         ...baseChartOptions('USD ($)').scales.y,
-        min: 53000,
-        max: 59000,
-        ticks: { color: '#6b8fae', callback: v => '$' + (v/1000).toFixed(0) + 'k' }
+        min: 54000,
+        max: 66000,
+        ticks: { color: '#6b8fae', stepSize: 2000, autoSkip: false, callback: v => '$' + (v/1000).toFixed(0) + 'k' }
       }
     }
   }
@@ -748,7 +748,8 @@ new Chart(document.getElementById('chart-truck-volume'), {
       y: {
         ...baseChartOptions('Index (Jan = 100)').scales.y,
         min: 90,
-        max: 130
+        max: 130,
+        ticks: { color: '#6b8fae', stepSize: 5, autoSkip: false }
       }
     }
   }
@@ -788,7 +789,8 @@ new Chart(document.getElementById('chart-flatbed-demand'), {
       y: {
         ...baseChartOptions('Index (Jan = 100)').scales.y,
         min: 90,
-        max: 145
+        max: 155,
+        ticks: { color: '#6b8fae', stepSize: 5, autoSkip: false }
       }
     }
   }
@@ -832,7 +834,8 @@ new Chart(document.getElementById('chart-trailer-orders'), {
       y: {
         ...baseChartOptions('Index (Jan = 100)').scales.y,
         min: 85,
-        max: 110
+        max: 130,
+        ticks: { color: '#6b8fae', stepSize: 5, autoSkip: false }
       }
     }
   }
@@ -897,7 +900,7 @@ new Chart(document.getElementById('chart-aluminum'), {
         ...baseChartOptions('USD / Metric Tonne').scales.y,
         min: 2900,
         max: 3900,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
+        ticks: { color: '#6b8fae', stepSize: 100, autoSkip: false, callback: v => '$' + v.toLocaleString() }
       }
     }
   }
@@ -976,7 +979,7 @@ new Chart(document.getElementById('chart-aluminum-2025'), {
         ...baseChartOptions('USD / Metric Tonne').scales.y,
         min: 2150,
         max: 3000,
-        ticks: { color: '#6b8fae', callback: v => '$' + v.toLocaleString() }
+        ticks: { color: '#6b8fae', stepSize: 100, autoSkip: false, callback: v => '$' + v.toLocaleString() }
       }
     }
   }
@@ -1036,7 +1039,7 @@ new Chart(document.getElementById('chart-alumina'), {
         ...baseChartOptions('USD / tonne').scales.y,
         min: 380,
         max: 700,
-        ticks: { color: '#6b8fae', callback: v => '$' + v }
+        ticks: { color: '#6b8fae', stepSize: 20, autoSkip: false, callback: v => '$' + v }
       }
     }
   }
@@ -1091,7 +1094,7 @@ new Chart(document.getElementById('chart-dxy'), {
         ...baseChartOptions('DXY Level').scales.y,
         min: 94,
         max: 114,
-        ticks: { color: '#6b8fae', callback: v => v.toFixed(0) }
+        ticks: { color: '#6b8fae', stepSize: 2, autoSkip: false, callback: v => v.toFixed(0) }
       }
     }
   }
@@ -1131,9 +1134,9 @@ new Chart(document.getElementById('chart-lme-stocks'), {
       ...baseChartOptions('000s Tonnes').scales,
       y: {
         ...baseChartOptions('000s Tonnes').scales.y,
-        min: 500,
-        max: 900,
-        ticks: { color: '#6b8fae', callback: v => v + 'k' }
+        min: 250,
+        max: 800,
+        ticks: { color: '#6b8fae', stepSize: 50, autoSkip: false, callback: v => v + 'k' }
       }
     }
   }
