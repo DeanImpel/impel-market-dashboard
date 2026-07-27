@@ -607,8 +607,8 @@ new Chart(document.getElementById('chart-spot-rates'), {
       ...baseChartOptions('$/mile (fuel included)').scales,
       y: {
         ...baseChartOptions('$/mile (fuel included)').scales.y,
-        min: 1.95,
-        max: 3.10,
+        min: 2.00,
+        max: 3.00,
         ticks: { color: '#6b8fae', stepSize: 0.1, autoSkip: false, callback: v => '$' + v.toFixed(2) }
       }
     }
@@ -703,7 +703,7 @@ new Chart(document.getElementById('chart-truck-price'), {
       y: {
         ...baseChartOptions('USD ($)').scales.y,
         min: 54000,
-        max: 66000,
+        max: 70000,
         ticks: { color: '#6b8fae', stepSize: 2000, autoSkip: false, callback: v => '$' + (v/1000).toFixed(0) + 'k' }
       }
     }
@@ -789,7 +789,7 @@ new Chart(document.getElementById('chart-flatbed-demand'), {
       y: {
         ...baseChartOptions('Index (Jan = 100)').scales.y,
         min: 90,
-        max: 155,
+        max: 170,
         ticks: { color: '#6b8fae', stepSize: 5, autoSkip: false }
       }
     }
@@ -834,7 +834,7 @@ new Chart(document.getElementById('chart-trailer-orders'), {
       y: {
         ...baseChartOptions('Index (Jan = 100)').scales.y,
         min: 85,
-        max: 130,
+        max: 145,
         ticks: { color: '#6b8fae', stepSize: 5, autoSkip: false }
       }
     }
@@ -977,7 +977,7 @@ new Chart(document.getElementById('chart-aluminum-2025'), {
       ...baseChartOptions('USD / Metric Tonne').scales,
       y: {
         ...baseChartOptions('USD / Metric Tonne').scales.y,
-        min: 2150,
+        min: 2100,
         max: 3000,
         ticks: { color: '#6b8fae', stepSize: 100, autoSkip: false, callback: v => '$' + v.toLocaleString() }
       }
