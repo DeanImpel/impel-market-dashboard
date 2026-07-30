@@ -412,6 +412,48 @@
         <canvas id="chart-aluminum-2025"></canvas>
       </div>
     </div>
+
+    <div class="section-header" style="margin-top:32px;">
+      <h2>MWTP — Midwest Transaction Price <span class="signal signal-buy">BUD'S FORMULA</span></h2>
+      <p>Bud Reitnouer confirmed he prices off LME cash + Midwest Premium. This is the all-in delivered US cost per pound — the actual number behind every price increase. Section 232 tariffs (50%, doubled from 25% in June 2025) are priced <em>inside</em> the premium, not added on top.</p>
+    </div>
+    <div class="bottom-line">
+      <strong>Negotiation read: the rollback window is narrowing.</strong> MWTP peaked at <strong>$2.827/lb</strong> in May 2026 — the level current Reitnouer pricing was set against. It bottomed near <strong>$2.528/lb</strong> on Jun 26 and has since rebounded to roughly <strong>$2.636/lb</strong> as the Midwest Premium climbed back toward record territory. At 5,000 lbs of aluminum per trailer, the defensible ask has fallen from ~$1,495/unit in late June to <strong>~$955/unit today</strong>. Watch the premium, not just LME — it is now the larger driver.
+    </div>
+    <div class="stats-row">
+      <div class="stat-card" style="border-color:#fbbf24;">
+        <div class="label">Current MWTP (all-in)</div>
+        <div class="value">$2.636<span style="font-size:13px; color:#6b8fae">/lb</span></div>
+        <div class="change up">⬆ Up ~$0.108/lb from the Jun 26 low of $2.528 — recovering, not falling</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Midwest Premium</div>
+        <div class="value">$1.188<span style="font-size:13px; color:#6b8fae">/lb</span></div>
+        <div class="change up">⬆ Back at/near record — contains the 50% Section 232 tariff; tripled since early 2025</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">May 2026 Peak (price locked here)</div>
+        <div class="value">$2.827<span style="font-size:13px; color:#6b8fae">/lb</span></div>
+        <div class="change down">⬇ Today is $0.191/lb below this — the basis for the Q4 rollback ask</div>
+      </div>
+      <div class="stat-card" style="border-color:#4ade80;">
+        <div class="label">Defensible Ask / Unit</div>
+        <div class="value">~$955</div>
+        <div class="change down">⬇ Was ~$1,495 on Jun 26 — shrinking weekly. 5,000 lbs × $0.191/lb. 141 units = ~$135K</div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>MWTP Breakdown — LME Cash + Midwest Premium (USD / lb) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— monthly averages, May 2025 – Jul 2026</span></h3>
+        <canvas id="chart-mwtp"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box chart-full">
+        <h3>Midwest Premium Alone — the tariff component (USD / lb) <span style="font-size:11px; color:#6b8fae; font-weight:400; text-transform:none; letter-spacing:0">— this is what decoupled US prices from the global benchmark</span></h3>
+        <canvas id="chart-mwpremium"></canvas>
+      </div>
+    </div>
   </div>
 
 
@@ -901,6 +943,143 @@ new Chart(document.getElementById('chart-aluminum'), {
         min: 2900,
         max: 3900,
         ticks: { color: '#6b8fae', stepSize: 100, autoSkip: false, callback: v => '$' + v.toLocaleString() }
+      }
+    }
+  }
+});
+
+// =========================================================
+// MWTP — MIDWEST TRANSACTION PRICE (Bud Reitnouer's pricing formula)
+// MWTP = LME cash ($/lb) + Midwest Premium ($/lb)
+// Section 232 tariff (50%) is priced INSIDE the premium, not added on top.
+// Source: Harbor Aluminum Monthly Indication + LME/Platts. Monthly averages.
+// APPEND ONE VALUE TO EACH ARRAY AT THE START OF EACH NEW MONTH.
+// =========================================================
+const MWTP_MONTHS = [
+  'May-25','Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25',
+  'Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26'
+];
+
+const lmeLbData = [
+  1.108, 1.141, 1.181, 1.177, 1.204, 1.264, 1.280, 1.304,
+  1.428, 1.390, 1.529, 1.633, 1.665, 1.576, 1.448
+];
+
+const mwPremiumData = [
+  0.377, 0.576, 0.679, 0.713, 0.740, 0.815, 0.875, 0.894,
+  0.993, 1.040, 1.089, 1.116, 1.162, 1.154, 1.188
+];
+
+const mwtpData = lmeLbData.map((v, i) => +(v + mwPremiumData[i]).toFixed(3));
+
+const mwtpBaseOptions = (yLabel) => ({
+  responsive: true,
+  maintainAspectRatio: true,
+  interaction: { mode: 'index', intersect: false },
+  plugins: {
+    legend: { position: 'top', labels: { boxWidth: 12, padding: 16, color: '#90b4d4', font: { size: 11 } } },
+    tooltip: {
+      backgroundColor: '#1a2d41', borderColor: '#2E75B6', borderWidth: 1,
+      titleColor: '#c5dff5', bodyColor: '#90b4d4', padding: 10,
+      callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(3)}/lb` }
+    }
+  },
+  scales: {
+    x: { stacked: true, grid: { color: GRID_COLOR }, ticks: { color: '#6b8fae', maxRotation: 45, autoSkip: false, font: { size: 10 } } },
+    y: {
+      stacked: true, grid: { color: GRID_COLOR },
+      ticks: { color: '#6b8fae', callback: v => '$' + v.toFixed(2) },
+      title: { display: true, text: yLabel, color: '#6b8fae', font: { size: 11 } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chart-mwtp'), {
+  type: 'bar',
+  data: {
+    labels: MWTP_MONTHS,
+    datasets: [
+      {
+        label: 'LME cash component',
+        data: lmeLbData,
+        backgroundColor: mwPremiumData.map((v, i) => i === 12 ? '#f87171' : '#3b82f6'),
+        stack: 'mwtp',
+        borderWidth: 0
+      },
+      {
+        label: 'Midwest Premium (incl. Section 232 tariff)',
+        data: mwPremiumData,
+        backgroundColor: mwPremiumData.map((v, i) => i === 12 ? '#fbbf24' : '#fb923c'),
+        stack: 'mwtp',
+        borderWidth: 0
+      },
+      {
+        label: 'May-26 peak — price locked here ($2.827/lb)',
+        type: 'line',
+        data: Array(MWTP_MONTHS.length).fill(2.827),
+        borderColor: 'rgba(248,113,113,0.7)',
+        backgroundColor: 'transparent',
+        fill: false, pointRadius: 0, borderDash: [6, 4], borderWidth: 1.5
+      }
+    ]
+  },
+  options: {
+    ...mwtpBaseOptions('USD / lb (all-in delivered)'),
+    scales: {
+      ...mwtpBaseOptions('USD / lb (all-in delivered)').scales,
+      y: {
+        ...mwtpBaseOptions('USD / lb (all-in delivered)').scales.y,
+        min: 0, max: 3.2,
+        ticks: { color: '#6b8fae', stepSize: 0.4, callback: v => '$' + v.toFixed(2) }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('chart-mwpremium'), {
+  type: 'line',
+  data: {
+    labels: MWTP_MONTHS,
+    datasets: [
+      {
+        label: 'Midwest Premium (USD/lb)',
+        data: mwPremiumData,
+        borderColor: '#fb923c',
+        backgroundColor: 'rgba(251,146,60,0.12)',
+        fill: true, tension: 0.35, borderWidth: 2.5,
+        pointRadius: mwPremiumData.map((v, i) => i === 12 || i === mwPremiumData.length - 1 ? 6 : 2),
+        pointBackgroundColor: mwPremiumData.map((v, i) =>
+          i === 12 ? '#fbbf24' : i === mwPremiumData.length - 1 ? '#f87171' : '#fb923c'
+        ),
+        pointHoverRadius: 6
+      },
+      {
+        label: '$1.00/lb threshold — first crossed Jan 2026',
+        data: Array(MWTP_MONTHS.length).fill(1.0),
+        borderColor: 'rgba(100,130,160,0.45)',
+        backgroundColor: 'transparent',
+        fill: false, pointRadius: 0, borderDash: [5, 4], borderWidth: 1.2
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 16, color: '#90b4d4', font: { size: 11 } } },
+      tooltip: {
+        backgroundColor: '#1a2d41', borderColor: '#2E75B6', borderWidth: 1,
+        titleColor: '#c5dff5', bodyColor: '#90b4d4', padding: 10,
+        callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(3)}/lb` }
+      }
+    },
+    scales: {
+      x: { grid: { color: GRID_COLOR }, ticks: { color: '#6b8fae', maxRotation: 45, autoSkip: false, font: { size: 10 } } },
+      y: {
+        grid: { color: GRID_COLOR }, min: 0.2, max: 1.4,
+        ticks: { color: '#6b8fae', stepSize: 0.2, callback: v => '$' + v.toFixed(2) },
+        title: { display: true, text: 'USD / lb', color: '#6b8fae', font: { size: 11 } }
       }
     }
   }
